@@ -1,8 +1,8 @@
 import { Router } from "express";
 import {
   createQuestion,
-  getQuestion,
-  getAllQuestion,
+  getQuestionById,
+  getAllQuestions,
   updateQuestion,
   deleteQuestion,
   checkAnswer,
@@ -20,10 +20,10 @@ questionRouter.put("/update/:id", updateQuestion);
 questionRouter.delete("/delete/:id", deleteQuestion);
 
 // get question data (list details of specified question)
-questionRouter.get("/:id", getQuestion);
+questionRouter.get("/get/:id", getQuestionById);
 
 // list all questions
-questionRouter.get("/list", getAllQuestion);
+questionRouter.get("/list", getAllQuestions);
 
 // pass choice to question (maybe add query param?)
 // -> check if correct, wrong, or invalid choice (doesn't exist in choice)
