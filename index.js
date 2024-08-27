@@ -1,44 +1,26 @@
-const express = require("express");
+import express, { json } from "express";
+import { questionRouter } from "./routes/index.js";
+import { initDBConnection } from "./db/index.js";
+
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 6969;
+
+//#region middleware
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/", questionRouter);
+// more appropriate if: app.use("/question/v1/", questionRouter);
 
-// add question to db
-app.post("/create", (req, res) => {
-  res.send("Hello World!");
-});
+//#endregion middleware
 
-// edit question and update db
-app.put("/update", (req, res) => {
-  res.send("Hello World!");
-});
-
-// delete question and update db
-app.delete("/delete", (req, res) => {
-  res.send("Hello World!");
-});
-
-// get question data (list details of specified question)
-app.get("/get", (req, res) => {
-  res.send("Hello World!");
-});
-
-// list all questions
-app.get("/list", (req, res) => {
-  res.send("Hello World!");
-});
-
-// pass choice to question (maybe add query param?)
-// -> check if correct, wrong, or invalid choice (doesn't exist in choice)
-app.get("/check-answer", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
+initDBConnection()
+  .then(() => {
+    // only start api server if successful connection to db
+    app.listen(port, () => {
+      console.log(`Questions API listening on port ${port}`);
+    });
+  })
+  .catch(() => {
+    process.exit(0); // only terminate process since error is catched on db layer
+  });

@@ -1,5 +1,8 @@
 // init connections to mysql db
 import { createPool } from "mysql2/promise";
+import { configDotenv } from "dotenv";
+
+configDotenv();
 
 export const db_pool = createPool({
   name: process.env.MYSQL_DB_NAME,
