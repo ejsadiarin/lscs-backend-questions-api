@@ -21,6 +21,7 @@ initDBConnection()
       console.log(`Questions API listening on port ${port}`);
     });
   })
-  .catch(() => {
-    process.exit(0); // only terminate process since error is catched on db layer
+  .catch((error) => {
+    console.error("Cannot connect to MYSQL DB: ", error);
+    process.exit(0);
   });
