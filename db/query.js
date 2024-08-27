@@ -4,7 +4,7 @@ export const questions_getAllQuestions = async () => {
   const QUERY = "SELECT * FROM questions_table";
   try {
     const db = await db_pool.getConnection();
-    const [res] = db.query(QUERY);
+    const [res] = await db.query(QUERY);
     res.forEach((q) => (q.choices = JSON.parse(q.choices)));
     return res;
   } catch (error) {
@@ -20,7 +20,7 @@ export const questions_getQuestionById = async (id) => {
   const QUERY = "SELECT * FROM questions_table WHERE id = ?";
   try {
     const db = await db_pool.getConnection();
-    const res = db.query(QUERY, [id]);
+    const [res] = await db.query(QUERY, [id]);
     return res;
   } catch (error) {
     console.error(
@@ -64,11 +64,10 @@ export const questions_update = async (id, question, choices, answer) => {
 };
 
 export const questions_delete = async (id) => {
-  const QUERY = `INSERT INTO questions_table (question, choices, answer) VALUES (?, ?, ?)`;
+  const QUERY = `DELETE FROM questions_table WHERE id = ?`;
   try {
     const db = await db_pool.getConnection();
-    const choicesJSON = JSON.stringify(choices); // need to parse choices array to JSON string before query
-    const res = await db.query(QUERY, [question, choicesJSON, answer]);
+    const res = await db.query(QUERY, [id]);
     return res;
   } catch (error) {
     console.error(
