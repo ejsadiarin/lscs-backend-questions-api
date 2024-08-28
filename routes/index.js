@@ -1,13 +1,5 @@
 import { Router } from "express";
 import { Question } from "../db/schema.js";
-import {
-  createQuestion,
-  getQuestionById,
-  getAllQuestions,
-  updateQuestion,
-  deleteQuestion,
-  checkAnswer,
-} from "../handlers/index.js";
 
 export const questionRouter = Router();
 
@@ -18,6 +10,7 @@ questionRouter.get("/", (req, res) => {
 });
 
 // add question to db
+// -> req: must be json of whole schema
 questionRouter.post("/create", async (req, res) => {
   try {
     const { question, choices, answer } = req.body;
@@ -35,6 +28,7 @@ questionRouter.post("/create", async (req, res) => {
 });
 
 // edit question and update db
+// -> req: must be json of whole schema
 questionRouter.put("/update/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -88,7 +82,8 @@ questionRouter.get("/list", async (req, res) => {
   }
 });
 
-// pass choice to question (maybe add query param?)
+// pass choice to question
+// -> req: must be json "choice": String
 // -> check if correct, wrong, or invalid choice (doesn't exist in choice)
 // -> return 200 if correct and wrong, 404 invalid
 questionRouter.get("/check-answer/:id", async (req, res) => {
@@ -102,7 +97,7 @@ questionRouter.get("/check-answer/:id", async (req, res) => {
     if (!question.choices.includes(choice)) {
       return res.status(400).json({ message: "Invalid choice" });
     }
-    const isCorrect = choice === question.answer;
+    const isCorrect = choice === question.answer; // bool
     res.status(200).json({ correct: isCorrect });
   } catch (error) {
     res.status(500).json({ error: error.message });
