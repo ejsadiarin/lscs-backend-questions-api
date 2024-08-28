@@ -1,18 +1,13 @@
-version: "3.9"
-
 services:
-  db:
-    image: mysql
-    container_name: db
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: always
     environment:
-      MYSQL_DATABASE: questionsdb
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: pass # required
-      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MONGO_INITDB_ROOT_USERNAME: useradmin
+      MONGO_INITDB_ROOT_PASSWORD: pass
+      MONGO_INITDB_DATABASE: questionsdb
     ports:
-      - "3306:3306"
+      - 27017:27017
     volumes:
-      - questions_db:/var/lib/mysql
-
-volumes:
-  questions_db:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
