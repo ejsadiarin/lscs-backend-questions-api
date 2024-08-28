@@ -8,3 +8,14 @@ db.createUser({
     },
   ],
 });
+
+//db.createUser({
+//  user: "useradmin",
+//  pwd: "pass",
+//  roles: [
+//    {
+//      role: "readWrite",
+//      db: "questiondb",
+//    },
+//  ],
+//});

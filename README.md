@@ -17,9 +17,10 @@
 docker compose up --build -d mongodb
 ```
 
-- then start API server and that's it
+- install dependencies then start API server and that's it
 
 ```bash
+npm i
 npm run dev
 ```
 
@@ -48,6 +49,6 @@ docker container ls
   - user: `useradmin`
   - password: `pass`
 - copy and paste the connection string (database URI) to `.env` file
-- then start server: `npm run dev` and request to `http://localhost/3069/`
+- then install deps and start server: `npm i && npm run dev` and request to `http://localhost/3069/`
 
 **NOTE: if you want to change any of the configs above, then also change the values in the `.env` file**

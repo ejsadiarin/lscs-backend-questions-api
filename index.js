@@ -1,10 +1,8 @@
+require("dotenv").config();
 import express from "express";
 import { questionRouter } from "./routes/index.js";
 import { initDBConnection } from "./db/index.js";
 import mongoose from "mongoose";
-import { config } from "dotenv";
-
-config();
 
 const app = express();
 const port = process.env.API_PORT || 6969;
@@ -29,4 +27,5 @@ mongoose.connection.once("open", () => {
 
 app.get("/", (req, res) => {
   console.log("Connected");
+  return res.status(200).send({ message: "Success" });
 });

@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const questionSchema = new mongoose.Schema({
-  question: String,
-  choices: [String],
-  answer: String,
+const questionSchema = new Schema({
+  question: { type: String, required: true, unique: true },
+  choices: [{ type: String, required: true }],
+  answer: { type: String, required: true },
 });
 
-export const Question = mongoose.model("Question", questionSchema);
+export const Question = model("Question", questionSchema);

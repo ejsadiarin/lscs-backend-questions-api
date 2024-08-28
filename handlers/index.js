@@ -1,10 +1,4 @@
-import {
-  questions_create,
-  questions_delete,
-  questions_getAllQuestions,
-  questions_getQuestionById,
-  questions_update,
-} from "../db/query.js";
+import { Question } from "../db/schema.js";
 
 export const createQuestion = async (req, res) => {
   const { question, choices, answer } = req.body;
@@ -13,7 +7,13 @@ export const createQuestion = async (req, res) => {
     return res.status(403).json({ message: "No input parameters provided." });
 
   try {
-    const data = await questions_create(question, choices, answer);
+    const data = await Question.create({
+      question: question,
+      choices: choices,
+      answer: answer,
+    });
+    await data.save();
+    console.log(data);
     return res.status(201).json({ data });
   } catch (error) {
     console.error(error);
@@ -24,10 +24,12 @@ export const createQuestion = async (req, res) => {
 };
 
 export const updateQuestion = async (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.params;
   try {
-    const data = await questions_update(id);
-    return res.status(200).json({ data }); // better if maybe .send(...)?
+    const question = await Question.findById(_id);
+    const data = await Question.updateOne();
+    console.log(data);
+    return res.status(200).json({ newData: data }); // better if maybe .send(...)?
   } catch (error) {
     console.error(error);
     return res
@@ -37,9 +39,9 @@ export const updateQuestion = async (req, res) => {
 };
 
 export const deleteQuestion = async (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.params;
   try {
-    await questions_delete(id);
+    await Question.deleteOne(_id);
     return res.status(200).send("Question deleted successfully.");
   } catch (error) {
     console.error(error);
@@ -67,7 +69,7 @@ export const getQuestionById = async (req, res) => {
 
 export const getAllQuestions = async (req, res) => {
   try {
-    const data = await questions_getAllQuestions();
+    const data = await Question.find();
     return res.status(200).json({ data });
   } catch (error) {
     console.error(error);
