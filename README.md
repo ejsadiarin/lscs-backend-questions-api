@@ -77,6 +77,17 @@ docker container ls
 Returns:
 
 - SUCCESSFUL: the created request body with `_id`, etc. properties provided by MongoDB
+
+```json
+{
+  "_id": "66cf124f41e8f90a231af0f9",
+  "question": "How many stars in whole universe?",
+  "choices": ["12377769", "345", "idk", "many very"],
+  "answer": "idk",
+  "__v": 0
+}
+```
+
 - FAIL: if choices are less than two, any error
 
 ```json
@@ -98,11 +109,22 @@ Returns:
 
 `http://localhost:6969/get/<id>`
 
-- NOTE: the `<id>` is the value of the `_id` of a question
+- NOTE: the `<id>` request parameter is the value of the `_id` of a question
 
 Returns:
 
 - SUCCESSFUL: the data of the specified question id
+
+```json
+{
+  "_id": "66cf124f41e8f90a231af0f9",
+  "question": "How many stars in whole universe?",
+  "choices": ["12377769", "345", "idk", "many very"],
+  "answer": "idk",
+  "__v": 0
+}
+```
+
 - FAIL: if question is not found, any error
 
 ```json
@@ -115,11 +137,31 @@ Returns:
 
 `http://localhost:6969/update/<id>`
 
-- NOTE: the `<id>` is the value of the `_id` of a question
+- NOTE: the `<id>` request parameter is the value of the `_id` of a question
+- provide request body like this:
+
+```json
+{
+  "question": "are you good?",
+  "choices": ["yes", "no", "idk", "secret"],
+  "answer": "secret"
+}
+```
 
 Returns:
 
-- SUCCESSFUL: the newly updated data payload
+- SUCCESSFUL: the newly updated data payload with `_id`, etc. properties.
+
+```json
+{
+  "_id": "66cf124f41e8f90a231af0f9",
+  "question": "are you good?",
+  "choices": ["yes", "no", "idk", "secret"],
+  "answer": "secret",
+  "__v": 0
+}
+```
+
 - FAIL: if question is not found, any error
 
 ```json
@@ -132,7 +174,7 @@ Returns:
 
 `http://localhost:6969/delete/<id>`
 
-- NOTE: the `<id>` is the value of the `_id` of a question
+- NOTE: the `<id>` request parameter is the value of the `_id` of a question
 
 Returns:
 
@@ -156,7 +198,7 @@ Returns:
 
 `http://localhost:6969/check-answer/<id>`
 
-- NOTE: the `<id>` is the value of the `_id` of a question
+- NOTE: the `<id>` request parameter is the value of the `_id` of a question
 
 Returns:
 
