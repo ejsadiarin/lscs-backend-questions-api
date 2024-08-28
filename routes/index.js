@@ -11,6 +11,12 @@ import {
 
 export const questionRouter = Router();
 
+// test
+questionRouter.get("/", (req, res) => {
+  console.log("Connected");
+  return res.status(200).send({ message: "Success" });
+});
+
 // add question to db
 questionRouter.post("/create", async (req, res) => {
   try {
@@ -85,7 +91,7 @@ questionRouter.get("/list", async (req, res) => {
 // pass choice to question (maybe add query param?)
 // -> check if correct, wrong, or invalid choice (doesn't exist in choice)
 // -> return 200 if correct and wrong, 404 invalid
-questionRouter.get("/check-answer", async (req, res) => {
+questionRouter.get("/check-answer/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { choice } = req.body;
@@ -96,7 +102,7 @@ questionRouter.get("/check-answer", async (req, res) => {
     if (!question.choices.includes(choice)) {
       return res.status(400).json({ message: "Invalid choice" });
     }
-    const isCorrect = choice === question.correctAnswer;
+    const isCorrect = choice === question.answer;
     res.status(200).json({ correct: isCorrect });
   } catch (error) {
     res.status(500).json({ error: error.message });

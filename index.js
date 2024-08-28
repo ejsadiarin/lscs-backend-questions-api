@@ -1,11 +1,15 @@
-require("dotenv").config();
 import express from "express";
 import { questionRouter } from "./routes/index.js";
 import { initDBConnection } from "./db/index.js";
 import mongoose from "mongoose";
+import { config } from "dotenv";
+
+config();
 
 const app = express();
-const port = process.env.API_PORT || 6969;
+const port = process.env.API_PORT; // 6969;
+
+initDBConnection();
 
 //#region middleware
 
@@ -15,17 +19,10 @@ app.use("/", questionRouter);
 
 //#endregion middleware
 
-initDBConnection();
-
 mongoose.connection.once("open", () => {
   console.log("Successfully connected to MongoDB.");
   // only start api server if successful connection to db
   app.listen(port, () => {
     console.log(`Questions API listening on port ${port}`);
   });
-});
-
-app.get("/", (req, res) => {
-  console.log("Connected");
-  return res.status(200).send({ message: "Success" });
 });
