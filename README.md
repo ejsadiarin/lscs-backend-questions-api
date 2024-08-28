@@ -11,20 +11,15 @@
 ### Docker Way
 
 - go to repo
-- install and start container
+- install and start container with:
 
 ```bash
-docker compose up --build -d mongodb
+docker compose up --build -d
 ```
 
-- install dependencies then start API server and that's it
+That's it! now you can request from any http client
 
-```bash
-npm i
-npm run dev
-```
-
-- use `curl`, postman, or any http client to request to `http://localhost/3069/`
+- ex. `curl`, postman, or any http client to request to `http://localhost/3069/`
 
 ---
 
