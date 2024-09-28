@@ -1,7 +1,8 @@
-FROM node:22.4
+FROM node:22.4-alpine
 
 # set the work dir
 WORKDIR /usr/src/app
+ENV NODE_ENV=development
 
 # copy package.json and package-lock.json
 COPY package*.json .

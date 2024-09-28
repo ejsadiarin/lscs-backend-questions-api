@@ -19,3 +19,7 @@ services:
 
 volumes:
   mongo_data:
+
+networks:
+  default:
+    driver: bridge
