@@ -1,10 +1,10 @@
-FROM node:22
+FROM node:22.4
 
 # set the work dir
 WORKDIR /usr/src/app
 
 # copy package.json and package-lock.json
-COPY package*.json ./
+COPY package*.json .
 
 # install dependencies layer (cached)
 RUN npm install
